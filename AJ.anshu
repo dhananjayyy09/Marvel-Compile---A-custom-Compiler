@@ -1,0 +1,9 @@
+val a = 10;
+val b = 20;
+prt("Hello, Johny!");
+prt(a + b);
+agar (a < b) {
+    prt("Hello buddy");
+} nhi-to {
+    prt("Cool man");
+}
