@@ -107,7 +107,7 @@ agar (a < b) {
     setLoading(true);
     setOutput("");
     setIsError(false);
-   // setParseTree(null); //  Reset parse tree before each run
+    // setParseTree(null); //  Reset parse tree before each run
 
     try {
       const response = await fetch("http://localhost:5000/compile", {
@@ -131,7 +131,7 @@ agar (a < b) {
         ...prev,
       ].slice(0, 8));
 
-     // const tree = extractParseTreeFromOutput(data.output); //  Get tree from output
+      // const tree = extractParseTreeFromOutput(data.output); //  Get tree from output
       //setParseTree(tree);
 
       if (outputRef.current) {
@@ -217,170 +217,170 @@ agar (a < b) {
   };
 
   return (
-  <div className="app" data-theme={theme}>
-    <header className="topbar">
-      <div>
-        <h1 className="split-title">Marvels Compiler</h1>
-        <p className="subtitle">
-          Write Mukku code, compile instantly, and inspect full compiler output.
-        </p>
-      </div>
-      <div className="stats">
-        <button
-          className="tool-btn history-toggle-btn"
-          onClick={() => setShowHistory((prev) => !prev)}
-        >
-          History ({history.length})
-        </button>
-        <select
-          className="theme-select"
-          value={theme}
-          onChange={(event) => setTheme(event.target.value)}
-          title="Theme mode"
-        >
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-          <option value="neon">Neon</option>
-        </select>
-        <span>{lineCount} lines</span>
-        <span>{charCount} chars</span>
-        <span className={isError ? "status error" : "status"}>
-          {loading ? "Compiling..." : output ? (isError ? "Error" : "Success") : "Ready"}
-        </span>
-      </div>
-    </header>
-
-    {showHistory && (
-      <section className="history-card top-history">
-        <div className="history-header">
-          <h3>Run History</h3>
-          <div className="toolbar">
-            <button
-              className="tool-btn"
-              onClick={() => setHistory([])}
-              disabled={!history.length}
-            >
-              Clear History
-            </button>
-            <button
-              className="tool-btn"
-              onClick={() => setShowHistory(false)}
-            >
-              Close
-            </button>
-          </div>
+    <div className="app" data-theme={theme}>
+      <header className="topbar">
+        <div>
+          <h1 className="split-title">Marvels Compiler</h1>
+          <p className="subtitle">
+            Write Mukku code, compile instantly, and inspect full compiler output.
+          </p>
         </div>
-        {!history.length ? (
-          <p className="history-empty">No runs yet. Compile once to create history.</p>
-        ) : (
-          <div className="history-list">
-            {history.map((item) => (
-              <button
-                key={item.id}
-                className={`history-item ${item.status}`}
-                onClick={() => handleRestoreHistory(item)}
-              >
-                <span>{item.at}</span>
-                <span>{item.codePreview}</span>
-              </button>
-            ))}
-          </div>
-        )}
-      </section>
-    )}
+        <div className="stats">
+          <button
+            className="tool-btn history-toggle-btn"
+            onClick={() => setShowHistory((prev) => !prev)}
+          >
+            History ({history.length})
+          </button>
+          <select
+            className="theme-select"
+            value={theme}
+            onChange={(event) => setTheme(event.target.value)}
+            title="Theme mode"
+          >
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="neon">Neon</option>
+          </select>
+          <span>{lineCount} lines</span>
+          <span>{charCount} chars</span>
+          <span className={isError ? "status error" : "status"}>
+            {loading ? "Compiling..." : output ? (isError ? "Error" : "Success") : "Ready"}
+          </span>
+        </div>
+      </header>
 
-    {/* Top section: Code and Output in split pane */}
-    <div className="workspace">
-      <SplitPane split="vertical" minSize={300} defaultSize="50%">
-        {/* Code Editor */}
-        <div className="pane editor-pane">
-          <div className="pane-header-row">
-            <div className="pane-header">Write your code</div>
+      {showHistory && (
+        <section className="history-card top-history">
+          <div className="history-header">
+            <h3>Run History</h3>
             <div className="toolbar">
-              {snippetTemplates.map((snippet) => (
+              <button
+                className="tool-btn"
+                onClick={() => setHistory([])}
+                disabled={!history.length}
+              >
+                Clear History
+              </button>
+              <button
+                className="tool-btn"
+                onClick={() => setShowHistory(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+          {!history.length ? (
+            <p className="history-empty">No runs yet. Compile once to create history.</p>
+          ) : (
+            <div className="history-list">
+              {history.map((item) => (
                 <button
-                  key={snippet.label}
-                  className="tool-btn snippet-btn"
-                  onClick={() => handleInsertSnippet(snippet.code)}
+                  key={item.id}
+                  className={`history-item ${item.status}`}
+                  onClick={() => handleRestoreHistory(item)}
                 >
-                  + {snippet.label}
+                  <span>{item.at}</span>
+                  <span>{item.codePreview}</span>
                 </button>
               ))}
-              <button className="tool-btn" onClick={handleLoadSample}>Sample</button>
-              <button className="tool-btn" onClick={handleResetEditor}>Reset</button>
-              <button className="tool-btn" onClick={handleClearEditor}>Clear</button>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Top section: Code and Output in split pane */}
+      <div className="workspace">
+        <SplitPane split="vertical" minSize={300} defaultSize="50%">
+          {/* Code Editor */}
+          <div className="pane editor-pane">
+            <div className="pane-header-row">
+              <div className="pane-header">Write your code</div>
+              <div className="toolbar">
+                {snippetTemplates.map((snippet) => (
+                  <button
+                    key={snippet.label}
+                    className="tool-btn snippet-btn"
+                    onClick={() => handleInsertSnippet(snippet.code)}
+                  >
+                    + {snippet.label}
+                  </button>
+                ))}
+                <button className="tool-btn" onClick={handleLoadSample}>Sample</button>
+                <button className="tool-btn" onClick={handleResetEditor}>Reset</button>
+                <button className="tool-btn" onClick={handleClearEditor}>Clear</button>
+              </div>
+            </div>
+            <div className="editor">
+              <Editor
+                height="100%"
+                defaultLanguage="plaintext"
+                value={code}
+                onChange={(value) => setCode(value ?? "")}
+                onMount={handleEditorMount}
+                theme={theme === "light" ? "vs" : "vs-dark"}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 15,
+                  lineNumbers: "on",
+                  roundedSelection: true,
+                  scrollBeyondLastLine: false,
+                  automaticLayout: true,
+                  tabSize: 2,
+                  glyphMargin: true,
+                }}
+              />
+            </div>
+            <button
+              className={`run-btn ${loading ? "loading" : ""}`}
+              onClick={handleRun}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner"></span> Compiling...
+                </>
+              ) : (
+                "Run Code (Ctrl+Enter)"
+              )}
+            </button>
+            <div className="hint-text">
+              Auto-saves your editor content locally.
+              {errorLine ? ` Compiler error highlighted on line ${errorLine}.` : ""}
             </div>
           </div>
-          <div className="editor">
-            <Editor
-              height="100%"
-              defaultLanguage="plaintext"
-              value={code}
-              onChange={(value) => setCode(value ?? "")}
-              onMount={handleEditorMount}
-              theme={theme === "light" ? "vs" : "vs-dark"}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 15,
-                lineNumbers: "on",
-                roundedSelection: true,
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                tabSize: 2,
-                glyphMargin: true,
-              }}
-            />
-          </div>
-          <button
-            className={`run-btn ${loading ? "loading" : ""}`}
-            onClick={handleRun}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span> Compiling...
-              </>
-            ) : (
-              "Run Code (Ctrl+Enter)"
-            )}
-          </button>
-          <div className="hint-text">
-            Auto-saves your editor content locally.
-            {errorLine ? ` Compiler error highlighted on line ${errorLine}.` : ""}
-          </div>
-        </div>
 
-        {/* Output */}
-        <div className="pane output-pane">
-          <div className="pane-header-row">
-            <div className="pane-header">Output</div>
-            <div className="toolbar">
-              <button className="tool-btn" onClick={handleDownloadOutput} disabled={!output}>Download</button>
-              <button className="tool-btn" onClick={handleCopyOutput} disabled={!output}>Copy</button>
-              <button className="tool-btn" onClick={handleClearOutput} disabled={!output}>Clear</button>
+          {/* Output */}
+          <div className="pane output-pane">
+            <div className="pane-header-row">
+              <div className="pane-header">Output</div>
+              <div className="toolbar">
+                <button className="tool-btn" onClick={handleDownloadOutput} disabled={!output}>Download</button>
+                <button className="tool-btn" onClick={handleCopyOutput} disabled={!output}>Copy</button>
+                <button className="tool-btn" onClick={handleClearOutput} disabled={!output}>Clear</button>
+              </div>
             </div>
+            <div
+              ref={outputRef}
+              className={`output-box ${isError ? "error" : "success"}`}
+            >
+              {output || (
+                <span className="placeholder">Output will appear here...</span>
+              )}
+            </div>
+            <div className="hint-text">Shortcut: Ctrl+L to clear output.</div>
           </div>
-          <div
-            ref={outputRef}
-            className={`output-box ${isError ? "error" : "success"}`}
-          >
-            {output || (
-              <span className="placeholder">Output will appear here...</span>
-            )}
-          </div>
-          <div className="hint-text">Shortcut: Ctrl+L to clear output.</div>
-        </div>
-      </SplitPane>
-    </div>
+        </SplitPane>
+      </div>
 
-    {/* Bottom section: Parse Tree */}
-    {/* {parseTree && (
+      {/* Bottom section: Parse Tree */}
+      {/* {parseTree && (
       <div style={{ marginTop: "20px", padding: "0 20px 30px" }}>
      
       </div>
     )}*/}
-  </div>
-);
+    </div>
+  );
 
 }
 
